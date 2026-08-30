@@ -1,0 +1,11 @@
+diff --git a/tools/jdk/BUILD b/tools/jdk/BUILD
+new file mode 100644
+index 0000000..0bcf588
+--- /dev/null
++++ b/tools/jdk/BUILD
+@@ -0,0 +1,5 @@
++package(default_visibility = ["//visibility:public"])
++
++# rules_java 7.10's local-JDK repository references this bootstrap toolchain
++# type, but the published archive omits the declaration.
++toolchain_type(name = "bootstrap_runtime_toolchain_type")

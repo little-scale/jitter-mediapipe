@@ -1,0 +1,31 @@
+diff --git a/mediapipe/tasks/c/vision/hand_landmarker/BUILD b/mediapipe/tasks/c/vision/hand_landmarker/BUILD
+index 5060d89..91d3733 100644
+--- a/mediapipe/tasks/c/vision/hand_landmarker/BUILD
++++ b/mediapipe/tasks/c/vision/hand_landmarker/BUILD
+@@ -172,3 +172,26 @@ cc_binary(
+     ],
+     deps = [":hand_landmarker_lib"],
+ )
++
++# Shared runtime for the native Jitter hand, pose, and face landmarker objects.
++# Keeping all three task APIs in one image avoids dyld collisions when several
++# externals use the same @rpath/libmediapipe.dylib install name in one Max process.
++cc_binary(
++    name = "libjit_handpose_mediapipe.dylib",
++    linkopts = [
++        "-Wl,-install_name,@rpath/libmediapipe.dylib",
++        "-Wl,-u,_MpImageCreateFromFile",
++        "-Wl,-u,_MpImageCreateFromUint8Data",
++        "-Wl,-u,_MpImageFree",
++        "-fvisibility=hidden",
++    ],
++    linkshared = True,
++    tags = ["manual"],
++    deps = [
++        ":hand_landmarker_c_lib",
++        "//mediapipe/tasks/c/core:common",
++        "//mediapipe/tasks/c/vision/core:image_c_lib",
++        "//mediapipe/tasks/c/vision/face_landmarker:face_landmarker_c_lib",
++        "//mediapipe/tasks/c/vision/pose_landmarker:pose_landmarker_c_lib",
++    ],
++)
