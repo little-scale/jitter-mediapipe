@@ -1,3 +1,5 @@
+![jitter-mediapipe screenshot](screenshot.jpg)
+
 # JitTrackers
 
 This package provides native Apple-silicon Max 9 externals for Google's
